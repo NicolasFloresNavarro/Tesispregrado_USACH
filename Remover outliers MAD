@@ -1,0 +1,92 @@
+data4=read.csv("tabla7picos.csv", stringsAsFactors=T)
+data4
+
+#subsets por centro de gravedad y picoLPC
+
+lpc_full<-subset(data4, tipoK == "i" | tipoK == "e" | tipoK == "a", select = -CoG)
+
+cog_full<-subset(data4,tipoK == "i" | tipoK == "e" | tipoK == "a", select = -picoLPC)
+
+#subsets por cada tipoK según CoG y picoLPC
+lpc_full_i<-subset(lpc_full,tipoK =="i")
+
+lpc_full_e<-subset(lpc_full,tipoK =="e")
+
+lpc_full_a<-subset(lpc_full,tipoK =="a")
+
+
+
+
+cog_full_i<-subset(cog_full,tipoK =="i")
+
+cog_full_e<-subset(cog_full,tipoK =="e")
+
+cog_full_a<-subset(cog_full,tipoK =="a")
+
+
+
+
+library(Routliers)
+library(tidyverse)
+
+#entrega los valores superiores e inferiores aceptables: LPC
+outliers_mad(lpc_full_i$picoLPC, b = 1.4826,threshold = 2.5, na.rm = TRUE)
+outliers_mad(lpc_full_e$picoLPC, b = 1.4826,threshold = 2.5, na.rm = TRUE)
+outliers_mad(lpc_full_a$picoLPC, b = 1.4826,threshold = 2.5, na.rm = TRUE)
+
+#Filtrar datos LPC
+
+lpc_full_i
+filtrados_lpc_i<-filter(lpc_full_i, picoLPC > 2521.993 & picoLPC < 4595.117)
+filtrados_lpc_i
+
+filtrados_lpc_e<-filter(lpc_full_e, picoLPC > 2230.676 & picoLPC < 4106.582)
+filtrados_lpc_e
+
+filtrados_lpc_a<-filter(lpc_full_a, picoLPC > 1149.479 & picoLPC < 2731.513)
+filtrados_lpc_a
+
+#entrega los valores superiores e inferiores aceptables: CoG
+
+outliers_mad(cog_full_i$CoG, b = 1.4826,threshold = 2.5, na.rm = TRUE)
+outliers_mad(cog_full_e$CoG, b = 1.4826,threshold = 2.5, na.rm = TRUE)
+outliers_mad(cog_full_a$CoG, b = 1.4826,threshold = 2.5, na.rm = TRUE)
+
+
+#Filtrar datos CoG
+
+filtrados_cog_i<-filter(cog_full_i, CoG > 2206.083 & CoG < 6514.062)
+filtrados_cog_i
+
+filtrados_cog_e<-filter(cog_full_e, CoG > 1152.730 & CoG < 6379.493)
+filtrados_cog_e
+
+filtrados_cog_a<-filter(cog_full_a, CoG > -2.588641 & CoG < 4748.048799)
+filtrados_cog_a
+
+#Combinar los data.frames en uno por CoG y LPC
+filtrados_lpc_todos<- dplyr::bind_rows(filtrados_lpc_i, filtrados_lpc_e, filtrados_lpc_a)
+filtrados_lpc_todos
+write.csv(filtrados_lpc_todos, "v2lpc_MAD.csv")
+
+
+filtrados_cog_todos<-dplyr::bind_rows(filtrados_cog_i, filtrados_cog_e, filtrados_cog_a)
+filtrados_cog_todos
+write.csv(filtrados_cog_todos, "v2cog_MAD.csv")
+
+
+#estudios y lpc
+id <- c(41,42,43,44,45,46,47,48,49,50,51,52,53,54)
+tipoK <-c("front", "front", "front", "front", "front", "front", "front", "front", "front", "front", "front", "front", "front", "front")
+picoLPC <-c(3000, 3046, 2822, 3105, 2859, 3034, 2981, 3093, 2891, 2800, 2720, 3000, 2592, 2989)
+
+lpc_sin_sexo<-subset(filtrados_lpc_todos, tipoK == "i" | tipoK == "e", select = -sexo)
+
+lpc_sin_sexo
+
+Data_estudios_v6 <- data.frame(id,tipoK, picoLPC)
+Data_estudios_v6
+
+lpc_estudios_X<-dplyr::bind_rows(lpc_sin_sexo, Data_estudios_v6)
+lpc_estudios_X
+write.csv(lpc_estudios_X, "v2estudio_lpc_MAD.csv")
