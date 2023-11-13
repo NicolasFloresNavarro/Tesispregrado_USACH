@@ -1,0 +1,58 @@
+datax<-read.csv("v2lpc_MAD.csv", stringsAsFactors=T)
+#Modelo 1 solo tipoK (LPC)
+
+modelolmeX=lme(picoLPC ~ tipoK, random = ~1|id/tipoK, data = datax, method="ML")
+summary(modelolmeX)
+
+nuevo_emmX <- emmeans(modelolmeX, "tipoK")
+summary(nuevo_emmX)
+
+
+contrastemmX<- contrast(nuevo_emmX, method = "pairwise", adjust = "bonferroni")
+summary(contrastemmX)
+
+#Modelo 2 sexo (LPC)
+
+modelolme_sexoX=lme(picoLPC ~ tipoK + sexo + tipoK:sexo, random = ~1|id/tipoK, data = datax, method="ML")
+summary(modelolme_sexoX)
+
+emsexotipokX= emmeans(modelolme_sexoX,"sexo",by="tipoK")
+emsexotipokX
+contrast_sexotipoK_lpc1X<-contrast(emsexotipokX,"pairwise", adjust = "bonferroni")
+contrast_sexotipoK_lpc1X
+
+#Modelo 3 tipoK (CoG)
+dataXX<-read.csv("v2cog_MAD.csv", stringsAsFactors=T)
+boxplot(CoG~tipoK, data = dataXX)
+
+modelolme2XX=lme(CoG ~ tipoK, random = ~1|id/tipoK, data = dataXX, method="ML")
+summary(modelolme2XX)
+
+
+nuevo_emm_cogXX<- emmeans(modelolme2XX, "tipoK")
+summary(nuevo_emm_cogXX)
+
+contrast_cogXX<- contrast(nuevo_emm_cogXX, method = "pairwise", adjust = "bonferroni")
+summary(contrast_cogXX)
+
+#Modelo 4 sexo (CoG)
+modelolme2_sexoXX=lme(CoG~tipoK+sexo+tipoK:sexo, random = ~1|id/tipoK, data = dataXX, method="ML")
+summary(modelolme2_sexoXX)
+
+emsexotipokXX= emmeans(modelolme2_sexoXX,"sexo",by="tipoK")
+emsexotipokXX
+contrast(emsexotipokXX,"pairwise", adjust = "bonferroni")
+
+#T-test independientes
+data3x <-read.csv("v2estudio_lpc_MAD.csv", stringsAsFactors = T)
+
+
+i_est_x<-subset(data3x, tipoK == "i" | tipoK == "front")
+e_est_x<-subset(data3x, tipoK == "e" | tipoK == "front")
+
+
+t_test_i_x<-t.test(picoLPC ~ tipoK, data =i_est_x, alternative = c("two.sided"), paired = FALSE, var.equal = FALSE,conf.level = 0.95, na.action = na.exclude)
+t_test_i_x
+
+t_test_e_x<-t.test(picoLPC ~ tipoK, data =e_est_x, alternative = c("two.sided"), paired = FALSE, var.equal = FALSE,conf.level = 0.95, na.action = na.exclude)
+t_test_e_x
