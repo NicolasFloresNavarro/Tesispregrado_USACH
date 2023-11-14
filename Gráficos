@@ -1,0 +1,78 @@
+#gráficos de barras 
+
+bar <- ggplot(data_lpc, aes(tipoK, picoLPC)) 
+bar + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black")  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0))
+
+
+ggsave("MediasLPC.png", plot = 
+         bar + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black")  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0))) 
+
+
+barsexolpc <- ggplot(data_lpc, aes(tipoK, picoLPC, group=sexo)) 
+barsexolpc + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black"))
+
+ggsave("MediasLPC_sexo.png", plot = 
+         barsexolpc + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black"))) 
+
+
+
+#cog barras 
+
+bar2 <- ggplot(data_cog, aes(tipoK, CoG))
+
+bar2 + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2)) + stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black") + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0))
+
+ggsave("MediasCoG.png", plot = 
+         bar2 + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2)) + stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black") + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)))
+
+bar2_sexo <- ggplot(data_cog, aes(tipoK, CoG, group=sexo))
+
+bar2_sexo + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black"))
+
+ggsave("MediasCoG_sexo.png", plot = 
+         bar2_sexo + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black")))
+
+#histogramas
+#histogramas lpc
+
+histLPC_nuevo <- ggplot(data_lpc, aes(picoLPC))
+
+
+
+histLPC_nuevo + geom_histogram(fill = "white", binwidth = 200, color = "black", na.rm =T) + facet_wrap(~tipoK,labeller = labeller(.default = sexo_tipok2))+ labs(x = "Hz", y = "Número de repeticiones") + scale_x_continuous(limits = c(0, 6000), breaks = c(0, 2000, 4000, 6000)) + scale_y_continuous(limits = c(0, 20), breaks = c(0,2,4,6,8,10,12,14,16,18,20)) + theme(plot.title = element_text(hjust = 0.5))
+
+histLPC_nuevo + geom_histogram(fill = "white", binwidth = 200, color = "black", na.rm= T) + facet_wrap(tipoK~ sexo, labeller = labeller(.default = sexo_tipok2))+ labs(x = "Hz", y = "Número de repeticiones") + scale_x_continuous(limits = c(0, 6000), breaks = c(0, 2000, 4000, 6000))  + scale_y_continuous(limits = c(0, 14), breaks = c(0, 2, 4, 6, 8, 10, 12, 14)) + theme(plot.title = element_text(hjust = 0.5))
+
+
+
+sexo_tipok2<- c(m = "Masculino", f = "Femenino", i = "Vocal posconsonántica i", e = "Vocal posconsonántica e", a = "Vocal posconsonántica a")
+sexo_tipok2
+
+
+
+
+ggsave("MAD LPC histograma tipoK.png", plot = 
+         histLPC_nuevo + geom_histogram(fill = "white", binwidth = 200, color = "black", na.rm =T) + facet_wrap(~tipoK,labeller = labeller(.default = sexo_tipok2))+ labs(x = "Hz", y = "Número de repeticiones") + scale_x_continuous(limits = c(0, 6000), breaks = c(0, 2000, 4000, 6000)) + scale_y_continuous(limits = c(0, 20), breaks = c(0,2,4,6,8,10,12,14,16,18,20)) + theme(plot.title = element_text(hjust = 0.5)))
+
+
+ggsave("MAD LPC histograma tipoK*sexo.png", plot = 
+         histLPC_nuevo + geom_histogram(fill = "white", binwidth = 200, color = "black", na.rm= T) + facet_wrap(tipoK~ sexo, labeller = labeller(.default = sexo_tipok2))+ labs(x = "Hz", y = "Número de repeticiones") + scale_x_continuous(limits = c(0, 6000), breaks = c(0, 2000, 4000, 6000))  + scale_y_continuous(limits = c(0, 14), breaks = c(0, 2, 4, 6, 8, 10, 12, 14)) + theme(plot.title = element_text(hjust = 0.5)))
+
+#histogramas cog
+
+hist_CoG_NUEVO <- ggplot(data_cog, aes(CoG))
+
+hist_CoG_NUEVO + geom_histogram(fill = "white", binwidth = 200, color = "black", na.rm =T) + facet_wrap(~tipoK,labeller = labeller(.default = sexo_tipok2))+ labs(x = "Hz", y = "Número de repeticiones") + scale_x_continuous(limits = c(0, 8000), breaks = c(0, 2000, 4000, 6000, 8000)) + scale_y_continuous(limits = c(0, 10), breaks = c(0,2,4,6,8,10)) + theme(plot.title = element_text(hjust = 0.5))
+
+hist_CoG_NUEVO + geom_histogram(fill = "white", binwidth = 250, color = "black", na.rm= T) + facet_wrap(tipoK~ sexo,labeller = labeller(.default = sexo_tipok2))+ labs(x = "Hz", y = "Número de repeticiones") + scale_x_continuous(limits = c(0, 8000), breaks = c(0, 2000, 4000, 6000, 8000)) + scale_y_continuous(limits = c(0, 10), breaks = c(0, 2, 4, 6, 8, 10)) + theme(plot.title = element_text(hjust = 0.5))
+
+
+
+ggsave("MAD CoG histograma tipoK.png", plot =
+         hist_CoG_NUEVO + geom_histogram(fill = "white", binwidth = 200, color = "black", na.rm =T) + facet_wrap(~tipoK,labeller = labeller(.default = sexo_tipok2))+ labs(x = "Hz", y = "Número de repeticiones") + scale_x_continuous(limits = c(0, 8000), breaks = c(0, 2000, 4000, 6000, 8000)) + scale_y_continuous(limits = c(0, 10), breaks = c(0,2,4,6,8,10)) + theme(plot.title = element_text(hjust = 0.5)))
+
+
+ggsave("MAD CoG histograma tipoK*sexo.png", plot = 
+         hist_CoG_NUEVO + geom_histogram(fill = "white", binwidth = 250, color = "black", na.rm= T) + facet_wrap(tipoK~ sexo,labeller = labeller(.default = sexo_tipok2))+ labs(x = "Hz", y = "Número de repeticiones") + scale_x_continuous(limits = c(0, 8000), breaks = c(0, 2000, 4000, 6000, 8000)) + scale_y_continuous(limits = c(0, 10), breaks = c(0, 2, 4, 6, 8, 10)) + theme(plot.title = element_text(hjust = 0.5)))
+
+
