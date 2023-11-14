@@ -76,3 +76,37 @@ ggsave("MAD CoG histograma tipoK*sexo.png", plot =
          hist_CoG_NUEVO + geom_histogram(fill = "white", binwidth = 250, color = "black", na.rm= T) + facet_wrap(tipoK~ sexo,labeller = labeller(.default = sexo_tipok2))+ labs(x = "Hz", y = "Número de repeticiones") + scale_x_continuous(limits = c(0, 8000), breaks = c(0, 2000, 4000, 6000, 8000)) + scale_y_continuous(limits = c(0, 10), breaks = c(0, 2, 4, 6, 8, 10)) + theme(plot.title = element_text(hjust = 0.5)))
 
 
+#gráficos de barra con significancias
+
+
+bar6 <- ggplot(estudio_con_i, aes(tipoK, picoLPC))
+
+bar6 + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2)) + stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black") + labs(x ="Vocal posconsonántica", y = "Hz")  + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + geom_signif(comparisons = list(c("front", "i")), annotations="****")
+
+ggsave("pvalues_Barra_Medias_est_i.png", plot = 
+         bar6 + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2)) + stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black") + labs(x ="Vocal posconsonántica", y = "Hz")  + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + geom_signif(comparisons = list(c("front", "i")), annotations="****"))
+       
+
+bar7 <- ggplot(estudio_con_e, aes(tipoK, picoLPC))
+
+bar7 + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2)) + stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black") + labs(x ="Vocal posconsonántica", y = "Hz")  + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + geom_signif(comparisons=list(c("e", "front")), annotations="**")
+
+ggsave("pvalues_Barra_Medias_est_e.png", plot = 
+         bar7 + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2)) + stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black") + labs(x ="Vocal posconsonántica", y = "Hz")  + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + geom_signif(comparisons=list(c("e", "front")), annotations="**"))
+
+
+bar8_lpc <- ggplot(data_lpc, aes(tipoK, picoLPC)) 
+bar8_lpc + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black")  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + geom_signif(comparisons=list(c("a", "e")), annotations="****") + geom_signif(comparisons=list(c("e", "i")), annotations="****") + geom_signif(comparisons=list(c("a", "i")), annotations="****", y_position = 5500)
+
+
+ggsave("pvalues_MediasLPC.png", plot = 
+         bar8_lpc + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black")  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + geom_signif(comparisons=list(c("a", "e")), annotations="****") + geom_signif(comparisons=list(c("e", "i")), annotations="****") + geom_signif(comparisons=list(c("a", "i")), annotations="****", y_position = 5500))
+
+
+bar9_cog <- ggplot(data_cog, aes(tipoK, CoG))
+
+bar9_cog + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2)) + stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black") + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + geom_signif(comparisons=list(c("a", "e")), annotations="****") + geom_signif(comparisons=list(c("e", "i")), annotations="**") + geom_signif(comparisons=list(c("a", "i")), annotations="****", y_position = 7500)
+
+
+ggsave("pvalues_MediasCoG.png", plot = 
+         bar9_cog + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2)) + stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black") + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + geom_signif(comparisons=list(c("a", "e")), annotations="****") + geom_signif(comparisons=list(c("e", "i")), annotations="**") + geom_signif(comparisons=list(c("a", "i")), annotations="****", y_position = 7500))
