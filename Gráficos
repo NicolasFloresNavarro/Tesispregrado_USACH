@@ -8,12 +8,14 @@ ggsave("MediasLPC.png", plot =
          bar + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black")  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0))) 
 
 
+
+
 barsexolpc <- ggplot(data_lpc, aes(tipoK, picoLPC, group=sexo)) 
-barsexolpc + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black"))
+barsexolpc + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(0.993,0.01)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black"))
 
 ggsave("MediasLPC_sexo.png", plot = 
-         barsexolpc + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black"))) 
-
+         barsexolpc + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(0.993,0.01)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black"))
+)
 
 
 #cog barras 
@@ -25,13 +27,15 @@ bar2 + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, siz
 ggsave("MediasCoG.png", plot = 
          bar2 + stat_summary(fun.y = mean,  geom = "point") + geom_point(shape =  20, size = 1, position = position_jitter(0.2)) + stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, colour = "black") + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)))
 
+
+
 bar2_sexo <- ggplot(data_cog, aes(tipoK, CoG, group=sexo))
 
-bar2_sexo + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black"))
+bar2_sexo + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(0.993,0.01)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black")) 
 
 ggsave("MediasCoG_sexo.png", plot = 
-         bar2_sexo + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(1,0)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black")))
-
+         bar2_sexo + stat_summary(fun.y = mean,  geom = "point", aes(color = sexo), position=position_dodge(0.3)) + geom_point(shape =  20, size = 1, position = position_jitter(0.2), aes(color = sexo))+ stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.1, aes(color = sexo), position=position_dodge(0.3))  + labs(x ="Vocal posconsonántica", y = "Hz") + theme_bw() + theme(legend.justification=c(1,0), legend.position=c(0.993,0.01)) + scale_color_manual(values = c("m" = "lightblue", "f" = "black")) 
+)
 #histogramas
 #histogramas lpc
 
